@@ -1,5 +1,8 @@
-int w=600;
-int h=600;
+import processing.video.*; 
+Capture cam; 
+
+int w=640;
+int h=480;
 
 float cx = w/2;
 float cy = h/2;
@@ -40,7 +43,7 @@ class Diagonal {
       sy = 1+int(random(30)) * r;
       sx = 1+int(random(30)) * r;
       
-      c = color(random(255), random(204), random(255));
+      c = color(random(155), random(144), random(155));
       th = 1+ri(10);
     }
   }
@@ -62,14 +65,22 @@ void setup() {
   for (int i=0;i<num;i++) {
     ds[i] = new Diagonal(ri(w), ri(h), 1+ri(2), 1+ri(1), 2);
   }
+  
+  cam = new Capture(this);
+  cam.start();
 }
 
 void draw()
 {
   background(0);
+  image(cam, 0, 0); 
+  
   for (int i=0;i<num;i++) {
     ds[i].update();
   }
   //d1.update();
 }
 
+void captureEvent(Capture c) {
+  c.read();
+}
